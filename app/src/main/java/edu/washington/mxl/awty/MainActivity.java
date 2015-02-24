@@ -97,13 +97,13 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                Intent alIntent = new Intent(MainActivity.this, AlarmReceiver.class);
-                pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alIntent, 0);
+//                pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alIntent, 0);
                 //Toast.makeText(MainActivity.this, message.getText().toString(), Toast.LENGTH_SHORT).show();
                 if (start.getText().toString() == "Stop") {
-                    PendingIntent pi = PendingIntent.getBroadcast(MainActivity.this, 0, alIntent, 0);
+                    Intent alIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                    PendingIntent pi = PendingIntent.getBroadcast(getApplicationContext(), 0, alIntent, 0);
                     mgr.cancel(pendingIntent);
-                    pendingIntent.cancel();
+//                    pendingIntent.cancel();
                     start.setText("Start");
                 } else {
                     int nags = Integer.parseInt(numNags.getText().toString());
@@ -112,8 +112,9 @@ public class MainActivity extends ActionBarActivity {
                         start.setText("Stop");
                         String mess = number.getText().toString() + ": " + message.getText().toString();
                         Log.i("onClick", mess);
-                        alIntent.putExtra("message", mess);
-                        pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alIntent, 0);
+                        Intent alIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                        alIntent.putExtra("mess", mess);
+                        pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alIntent, 0);
                         mgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                                 SystemClock.elapsedRealtime() + 3000, nags * PERIOD, pendingIntent);
                     }

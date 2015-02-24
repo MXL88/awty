@@ -15,7 +15,8 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         Log.i("onReceive", "ENTERED");
-        String message = (String) intent.getStringExtra("message");
+        String message = intent.getStringExtra("mess");
+        Log.i("onReceive", "bundle: " + intent.getExtras().toString());
         // For our recurring task, we'll just display a message
         if (message != null) {
             Log.i("onReceive", message);
